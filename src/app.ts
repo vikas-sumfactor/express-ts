@@ -9,7 +9,7 @@ import { log } from "console";
  import multer from "multer";
 
 import nodemailer from "nodemailer"
-import express , { NextFunction ,Response} from "express";
+import express , { NextFunction ,Response,Request} from "express";
 
 
 
@@ -122,3 +122,32 @@ const app = express();
 // })
 // app.listen(7700);
 
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: { user: "vikasrana7770@gmail.com", pass: "bxghobjawwlmjaja" }
+})
+
+let mailOptions = {
+  from: "vikasrana7770@gmail.com",
+  to: "vikas.sumfactor@gmail.com",
+  subject: "yesterday problem",
+  text: "i wanna talk about yesterday problem"
+}
+
+
+
+app.get('/sendEmail', (req: Request, res: Response, next: NextFunction) => {
+
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) return res.status(500).send({ error: error })
+
+      console.log(info)
+
+      return res.status(200).send({ info: info})
+  })
+
+
+})
+
+app.listen(7700);
