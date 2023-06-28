@@ -1,7 +1,7 @@
-import { createServer, IncomingMessage, ServerResponse } from "http";
+import { createServer, IncomingMessage, ServerResponse ,Server  } from "http";
 import * as fs from 'fs';
 import * as path from 'path'
-
+import router from "./Routes/routes";
 import * as url from "url";
 import EventEmitter from "events";
 import { log } from "console";
@@ -10,12 +10,23 @@ import { log } from "console";
 
 import nodemailer from "nodemailer"
 import express , { NextFunction ,Response,Request} from "express";
-
-
-
-const port = 7700
+import { connectDatabase } from "./Database/connection";
 
 const app = express();
+app.use('/',router);
+const PORT = 7900
+connectDatabase().then((response) => {
+
+  console.log(response)
+ const server:Server= app.listen(PORT, () => console.log(`server is running at port http://localhost:${PORT}`))
+
+}).catch((error) => {
+  console.log(error)
+})
+
+
+
+
 
 
 
@@ -123,31 +134,31 @@ const app = express();
 // app.listen(7700);
 
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: "vikasrana7770@gmail.com", pass: "bxghobjawwlmjaja" }
-})
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: { user: "vikasrana7770@gmail.com", pass: "bxghobjawwlmjaja" }
+// })
 
-let mailOptions = {
-  from: "vikasrana7770@gmail.com",
-  to: "vikas.sumfactor@gmail.com",
-  subject: "yesterday problem",
-  text: "i wanna talk about yesterday problem"
-}
-
-
-
-app.get('/sendEmail', (req: Request, res: Response, next: NextFunction) => {
-
-  transporter.sendMail(mailOptions, (error, info) => {
-      if (error) return res.status(500).send({ error: error })
-
-      console.log(info)
-
-      return res.status(200).send({ info: info})
-  })
+// let mailOptions = {
+//   from: "vikasrana7770@gmail.com",
+//   to: "vikas.sumfactor@gmail.com",
+//   subject: "yesterday problem",
+//   text: "i wanna talk about yesterday problem"
+// }
 
 
-})
 
-app.listen(7700);
+// app.get('/sendEmail', (req: Request, res: Response, next: NextFunction) => {
+
+//   transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) return res.status(500).send({ error: error })
+
+//       console.log(info)
+
+//       return res.status(200).send({ info: info})
+//   })
+
+
+// })
+
+// app.listen(7700);

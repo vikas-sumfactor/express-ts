@@ -3,9 +3,12 @@ import mysql from 'mysql';
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "php@java",
-    database: "nodedb"
+    password: "Vikas@rana",
+    database: "new_schema"
 })
+
+//  connect database
+
 
 export const connectDatabase = () => {
     return new Promise((resolve, reject) => {
@@ -20,6 +23,9 @@ export const connectDatabase = () => {
         }
     })
 }
+
+//  sql query
+
 export const executeQuery = (sqlQuery: string) => {
     return new Promise((resolve, reject) => {
         try {
